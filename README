@@ -1,0 +1,44 @@
+Thsi is the documentation for the gstreamer plugin gst-handdetect.
+
+The plugin works with OpenCV to detect natural hand gestures, its hand gesture detection is achieved through HAAR classifier training which results in classifier files in xml formats.
+
+======
+======
+
+The structure of this plugin is organised as following:
+
+/GstHanddetect
+   /src
+      gsthanddetect.c
+      gsthanddetect.h
+      /xml
+         fist.xml
+         palm.xml (to be added)
+   /examples
+      Makefile.am
+      main.c (an app example to demonstrate using hand gestures (fist) 
+              to manipulate the media playbacks and volumes)
+   configure.ac
+   Makefile.am
+   README
+
+======
+======
+
+The manipulation of media playbacks and volumes are designed as following:
+1. the frame will draw a red circle over the hand gestures (fist)
+2. given the positions and movements the gestures make, the manipulations are defined as:
+   * the horizontal positions of fist (known as x coordinate) in the frame 
+      chanage the media's playback position 
+      [ current media position = x / frame width * media duration ]
+   * the vertical positions of fist (know as y coordinates) in the frame
+      change the media playback's volumes
+      [ current volume = y / frame height * 10 ]
+   * if palms detected, the playback stops, showing fist gesture to resume playing
+
+======
+======
+
+PLUGIN INSTALL
+following regular gstreamer plugin installation procedures to make and install the gst-handdetect plugin.
+
