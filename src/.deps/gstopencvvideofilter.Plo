@@ -1,0 +1,844 @@
+gstopencvvideofilter.lo: gstopencvvideofilter.c ../config.h \
+ /usr/local/include/gstreamer-0.10/gst/gst.h \
+ /usr/local/include/glib-2.0/glib.h \
+ /usr/local/include/glib-2.0/glib/galloca.h \
+ /usr/local/include/glib-2.0/glib/gtypes.h \
+ /usr/local/lib/glib-2.0/include/glibconfig.h \
+ /usr/local/include/glib-2.0/glib/gmacros.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/limits.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/features.h \
+ /usr/include/i386-linux-gnu/bits/predefs.h \
+ /usr/include/i386-linux-gnu/sys/cdefs.h \
+ /usr/include/i386-linux-gnu/bits/wordsize.h \
+ /usr/include/i386-linux-gnu/gnu/stubs.h \
+ /usr/include/i386-linux-gnu/gnu/stubs-32.h \
+ /usr/include/i386-linux-gnu/bits/posix1_lim.h \
+ /usr/include/i386-linux-gnu/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/i386-linux-gnu/bits/posix2_lim.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/float.h \
+ /usr/local/include/glib-2.0/glib/gversionmacros.h /usr/include/time.h \
+ /usr/include/i386-linux-gnu/bits/time.h \
+ /usr/include/i386-linux-gnu/bits/types.h \
+ /usr/include/i386-linux-gnu/bits/typesizes.h /usr/include/xlocale.h \
+ /usr/local/include/glib-2.0/glib/garray.h \
+ /usr/local/include/glib-2.0/glib/gasyncqueue.h \
+ /usr/local/include/glib-2.0/glib/gthread.h \
+ /usr/local/include/glib-2.0/glib/gatomic.h \
+ /usr/local/include/glib-2.0/glib/gerror.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
+ /usr/local/include/glib-2.0/glib/gquark.h \
+ /usr/local/include/glib-2.0/glib/gbacktrace.h /usr/include/signal.h \
+ /usr/include/i386-linux-gnu/bits/sigset.h \
+ /usr/include/i386-linux-gnu/bits/signum.h \
+ /usr/include/i386-linux-gnu/bits/siginfo.h \
+ /usr/include/i386-linux-gnu/bits/sigaction.h \
+ /usr/include/i386-linux-gnu/bits/sigcontext.h \
+ /usr/include/i386-linux-gnu/asm/sigcontext.h /usr/include/linux/types.h \
+ /usr/include/i386-linux-gnu/asm/types.h /usr/include/asm-generic/types.h \
+ /usr/include/asm-generic/int-ll64.h \
+ /usr/include/i386-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/i386-linux-gnu/asm/posix_types.h \
+ /usr/include/i386-linux-gnu/asm/posix_types_32.h \
+ /usr/include/i386-linux-gnu/bits/sigstack.h \
+ /usr/include/i386-linux-gnu/sys/ucontext.h \
+ /usr/include/i386-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/i386-linux-gnu/bits/sigthread.h \
+ /usr/local/include/glib-2.0/glib/gbase64.h \
+ /usr/local/include/glib-2.0/glib/gbitlock.h \
+ /usr/local/include/glib-2.0/glib/gbookmarkfile.h \
+ /usr/local/include/glib-2.0/glib/gbytes.h \
+ /usr/local/include/glib-2.0/glib/gcharset.h \
+ /usr/local/include/glib-2.0/glib/gchecksum.h \
+ /usr/local/include/glib-2.0/glib/gconvert.h \
+ /usr/local/include/glib-2.0/glib/gdataset.h \
+ /usr/local/include/glib-2.0/glib/gdate.h \
+ /usr/local/include/glib-2.0/glib/gdatetime.h \
+ /usr/local/include/glib-2.0/glib/gtimezone.h \
+ /usr/local/include/glib-2.0/glib/gdir.h \
+ /usr/local/include/glib-2.0/glib/genviron.h \
+ /usr/local/include/glib-2.0/glib/gfileutils.h \
+ /usr/local/include/glib-2.0/glib/ggettext.h \
+ /usr/local/include/glib-2.0/glib/ghash.h \
+ /usr/local/include/glib-2.0/glib/glist.h \
+ /usr/local/include/glib-2.0/glib/gmem.h \
+ /usr/local/include/glib-2.0/glib/ghmac.h \
+ /usr/local/include/glib-2.0/glib/gchecksum.h \
+ /usr/local/include/glib-2.0/glib/ghook.h \
+ /usr/local/include/glib-2.0/glib/ghostutils.h \
+ /usr/local/include/glib-2.0/glib/giochannel.h \
+ /usr/local/include/glib-2.0/glib/gmain.h \
+ /usr/local/include/glib-2.0/glib/gpoll.h \
+ /usr/local/include/glib-2.0/glib/gslist.h \
+ /usr/local/include/glib-2.0/glib/gstring.h \
+ /usr/local/include/glib-2.0/glib/gunicode.h \
+ /usr/local/include/glib-2.0/glib/gutils.h \
+ /usr/local/include/glib-2.0/glib/gkeyfile.h \
+ /usr/local/include/glib-2.0/glib/gmappedfile.h \
+ /usr/local/include/glib-2.0/glib/gmarkup.h \
+ /usr/local/include/glib-2.0/glib/gmessages.h \
+ /usr/local/include/glib-2.0/glib/gnode.h \
+ /usr/local/include/glib-2.0/glib/goption.h \
+ /usr/local/include/glib-2.0/glib/gpattern.h \
+ /usr/local/include/glib-2.0/glib/gprimes.h \
+ /usr/local/include/glib-2.0/glib/gqsort.h \
+ /usr/local/include/glib-2.0/glib/gqueue.h \
+ /usr/local/include/glib-2.0/glib/grand.h \
+ /usr/local/include/glib-2.0/glib/gregex.h \
+ /usr/local/include/glib-2.0/glib/gscanner.h \
+ /usr/local/include/glib-2.0/glib/gsequence.h \
+ /usr/local/include/glib-2.0/glib/gshell.h \
+ /usr/local/include/glib-2.0/glib/gslice.h \
+ /usr/local/include/glib-2.0/glib/gspawn.h \
+ /usr/local/include/glib-2.0/glib/gstrfuncs.h \
+ /usr/local/include/glib-2.0/glib/gstringchunk.h \
+ /usr/local/include/glib-2.0/glib/gtestutils.h \
+ /usr/local/include/glib-2.0/glib/gthreadpool.h \
+ /usr/local/include/glib-2.0/glib/gtimer.h \
+ /usr/local/include/glib-2.0/glib/gtrashstack.h \
+ /usr/local/include/glib-2.0/glib/gtree.h \
+ /usr/local/include/glib-2.0/glib/gurifuncs.h \
+ /usr/local/include/glib-2.0/glib/gvarianttype.h \
+ /usr/local/include/glib-2.0/glib/gvariant.h \
+ /usr/local/include/glib-2.0/glib/gversion.h \
+ /usr/local/include/glib-2.0/glib/deprecated/gallocator.h \
+ /usr/local/include/glib-2.0/glib/deprecated/gcache.h \
+ /usr/local/include/glib-2.0/glib/deprecated/gcompletion.h \
+ /usr/local/include/glib-2.0/glib/deprecated/gmain.h \
+ /usr/local/include/glib-2.0/glib/deprecated/grel.h \
+ /usr/local/include/glib-2.0/glib/deprecated/gthread.h \
+ /usr/include/pthread.h /usr/include/endian.h \
+ /usr/include/i386-linux-gnu/bits/endian.h \
+ /usr/include/i386-linux-gnu/bits/byteswap.h /usr/include/sched.h \
+ /usr/include/i386-linux-gnu/bits/sched.h \
+ /usr/include/i386-linux-gnu/bits/setjmp.h \
+ /usr/local/include/gstreamer-0.10/gst/glib-compat.h \
+ /usr/local/include/gstreamer-0.10/gst/gstenumtypes.h \
+ /usr/local/include/glib-2.0/glib-object.h \
+ /usr/local/include/glib-2.0/gobject/gbinding.h \
+ /usr/local/include/glib-2.0/gobject/gobject.h \
+ /usr/local/include/glib-2.0/gobject/gtype.h \
+ /usr/local/include/glib-2.0/gobject/gvalue.h \
+ /usr/local/include/glib-2.0/gobject/gparam.h \
+ /usr/local/include/glib-2.0/gobject/gclosure.h \
+ /usr/local/include/glib-2.0/gobject/gsignal.h \
+ /usr/local/include/glib-2.0/gobject/gmarshal.h \
+ /usr/local/include/glib-2.0/gobject/gboxed.h \
+ /usr/local/include/glib-2.0/gobject/glib-types.h \
+ /usr/local/include/glib-2.0/gobject/genums.h \
+ /usr/local/include/glib-2.0/gobject/gparamspecs.h \
+ /usr/local/include/glib-2.0/gobject/gsourceclosure.h \
+ /usr/local/include/glib-2.0/gobject/gtypemodule.h \
+ /usr/local/include/glib-2.0/gobject/gtypeplugin.h \
+ /usr/local/include/glib-2.0/gobject/gvaluearray.h \
+ /usr/local/include/glib-2.0/gobject/gvaluetypes.h \
+ /usr/local/include/gstreamer-0.10/gst/gstversion.h \
+ /usr/local/include/gstreamer-0.10/gst/gstatomicqueue.h \
+ /usr/local/include/gstreamer-0.10/gst/gstbin.h \
+ /usr/local/include/gstreamer-0.10/gst/gstelement.h \
+ /usr/local/include/gstreamer-0.10/gst/gstconfig.h \
+ /usr/include/libxml2/libxml/parser.h \
+ /usr/include/libxml2/libxml/xmlversion.h \
+ /usr/include/libxml2/libxml/xmlexports.h \
+ /usr/include/libxml2/libxml/tree.h /usr/include/stdio.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/include/i386-linux-gnu/bits/stdio_lim.h \
+ /usr/include/i386-linux-gnu/bits/sys_errlist.h \
+ /usr/include/i386-linux-gnu/bits/stdio.h \
+ /usr/include/i386-linux-gnu/bits/stdio2.h \
+ /usr/include/libxml2/libxml/xmlstring.h \
+ /usr/include/libxml2/libxml/xmlregexp.h \
+ /usr/include/libxml2/libxml/dict.h /usr/include/libxml2/libxml/hash.h \
+ /usr/include/libxml2/libxml/valid.h \
+ /usr/include/libxml2/libxml/xmlerror.h \
+ /usr/include/libxml2/libxml/list.h \
+ /usr/include/libxml2/libxml/xmlautomata.h \
+ /usr/include/libxml2/libxml/entities.h \
+ /usr/include/libxml2/libxml/encoding.h /usr/include/iconv.h \
+ /usr/include/libxml2/libxml/xmlIO.h \
+ /usr/include/libxml2/libxml/globals.h /usr/include/libxml2/libxml/SAX.h \
+ /usr/include/stdlib.h /usr/include/i386-linux-gnu/bits/waitflags.h \
+ /usr/include/i386-linux-gnu/bits/waitstatus.h \
+ /usr/include/i386-linux-gnu/sys/types.h \
+ /usr/include/i386-linux-gnu/sys/select.h \
+ /usr/include/i386-linux-gnu/bits/select.h \
+ /usr/include/i386-linux-gnu/bits/select2.h \
+ /usr/include/i386-linux-gnu/sys/sysmacros.h /usr/include/alloca.h \
+ /usr/include/i386-linux-gnu/bits/stdlib.h \
+ /usr/include/libxml2/libxml/xlink.h /usr/include/libxml2/libxml/SAX2.h \
+ /usr/include/libxml2/libxml/xmlmemory.h \
+ /usr/include/libxml2/libxml/threads.h \
+ /usr/local/include/gstreamer-0.10/gst/gstobject.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpad.h \
+ /usr/local/include/gstreamer-0.10/gst/gstbuffer.h \
+ /usr/local/include/gstreamer-0.10/gst/gstminiobject.h \
+ /usr/local/include/gstreamer-0.10/gst/gstclock.h \
+ /usr/local/include/gstreamer-0.10/gst/gstcaps.h \
+ /usr/local/include/gstreamer-0.10/gst/gststructure.h \
+ /usr/local/include/gstreamer-0.10/gst/gstdatetime.h \
+ /usr/local/include/gstreamer-0.10/gst/gstbufferlist.h \
+ /usr/local/include/gstreamer-0.10/gst/gstevent.h \
+ /usr/local/include/gstreamer-0.10/gst/gstformat.h \
+ /usr/local/include/gstreamer-0.10/gst/gstiterator.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttaglist.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttoc.h \
+ /usr/local/include/gstreamer-0.10/gst/gstquery.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttask.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttaskpool.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpadtemplate.h \
+ /usr/local/include/gstreamer-0.10/gst/gstbus.h \
+ /usr/local/include/gstreamer-0.10/gst/gstmessage.h \
+ /usr/local/include/gstreamer-0.10/gst/gstelementfactory.h \
+ /usr/local/include/gstreamer-0.10/gst/gstplugin.h \
+ /usr/include/i386-linux-gnu/sys/stat.h \
+ /usr/include/i386-linux-gnu/bits/stat.h \
+ /usr/local/include/glib-2.0/gmodule.h \
+ /usr/local/include/gstreamer-0.10/gst/gstmacros.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpluginfeature.h \
+ /usr/local/include/gstreamer-0.10/gst/gstindex.h \
+ /usr/local/include/gstreamer-0.10/gst/gstindexfactory.h \
+ /usr/local/include/gstreamer-0.10/gst/gstchildproxy.h \
+ /usr/local/include/gstreamer-0.10/gst/gstdebugutils.h \
+ /usr/local/include/gstreamer-0.10/gst/gsterror.h /usr/include/errno.h \
+ /usr/include/i386-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/i386-linux-gnu/asm/errno.h /usr/include/asm-generic/errno.h \
+ /usr/include/asm-generic/errno-base.h \
+ /usr/local/include/gstreamer-0.10/gst/gstghostpad.h \
+ /usr/local/include/gstreamer-0.10/gst/gstinfo.h \
+ /usr/local/include/gstreamer-0.10/gst/gstinterface.h \
+ /usr/local/include/gstreamer-0.10/gst/gstmarshal.h \
+ /usr/local/include/gstreamer-0.10/gst/gstparamspecs.h \
+ /usr/local/include/gstreamer-0.10/gst/gstvalue.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpipeline.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpoll.h \
+ /usr/local/include/gstreamer-0.10/gst/gstpreset.h \
+ /usr/local/include/gstreamer-0.10/gst/gstregistry.h \
+ /usr/local/include/gstreamer-0.10/gst/gstsegment.h \
+ /usr/local/include/gstreamer-0.10/gst/gstsystemclock.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttagsetter.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttocsetter.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttrace.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttypefind.h \
+ /usr/local/include/gstreamer-0.10/gst/gsttypefindfactory.h \
+ /usr/local/include/gstreamer-0.10/gst/gsturi.h \
+ /usr/local/include/gstreamer-0.10/gst/gstutils.h \
+ /usr/local/include/gstreamer-0.10/gst/gstparse.h \
+ /usr/local/include/gstreamer-0.10/gst/gstxml.h \
+ /usr/local/include/gstreamer-0.10/gst/gstcompat.h gstopencvvideofilter.h \
+ /usr/local/include/gstreamer-0.10/gst/video/gstvideofilter.h \
+ /usr/local/include/gstreamer-0.10/gst/base/gstbasetransform.h \
+ /usr/local/include/opencv/cv.h /usr/local/include/opencv2/core/core_c.h \
+ /usr/local/include/opencv2/core/types_c.h /usr/include/assert.h \
+ /usr/include/string.h /usr/include/i386-linux-gnu/bits/string.h \
+ /usr/include/i386-linux-gnu/bits/string2.h \
+ /usr/include/i386-linux-gnu/bits/string3.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
+ /usr/include/i386-linux-gnu/bits/wchar.h /usr/include/math.h \
+ /usr/include/i386-linux-gnu/bits/huge_val.h \
+ /usr/include/i386-linux-gnu/bits/huge_valf.h \
+ /usr/include/i386-linux-gnu/bits/huge_vall.h \
+ /usr/include/i386-linux-gnu/bits/inf.h \
+ /usr/include/i386-linux-gnu/bits/nan.h \
+ /usr/include/i386-linux-gnu/bits/mathdef.h \
+ /usr/include/i386-linux-gnu/bits/mathcalls.h \
+ /usr/include/i386-linux-gnu/bits/mathinline.h \
+ /usr/local/include/opencv2/core/core.hpp \
+ /usr/local/include/opencv2/core/version.hpp \
+ /usr/local/include/opencv2/core/operations.hpp \
+ /usr/local/include/opencv2/core/mat.hpp \
+ /usr/local/include/opencv2/imgproc/imgproc_c.h \
+ /usr/local/include/opencv2/imgproc/types_c.h \
+ /usr/local/include/opencv2/imgproc/imgproc.hpp \
+ /usr/local/include/opencv2/video/tracking.hpp \
+ /usr/local/include/opencv2/features2d/features2d.hpp \
+ /usr/local/include/opencv2/flann/flann.hpp \
+ /usr/local/include/opencv2/calib3d/calib3d.hpp \
+ /usr/local/include/opencv2/objdetect/objdetect.hpp \
+ /usr/local/include/opencv2/legacy/compat.hpp gstopencvutils.h \
+ /usr/local/include/gstreamer-0.10/gst/video/video.h \
+ /usr/local/include/gstreamer-0.10/gst/video/video-enumtypes.h
+
+../config.h:
+
+/usr/local/include/gstreamer-0.10/gst/gst.h:
+
+/usr/local/include/glib-2.0/glib.h:
+
+/usr/local/include/glib-2.0/glib/galloca.h:
+
+/usr/local/include/glib-2.0/glib/gtypes.h:
+
+/usr/local/lib/glib-2.0/include/glibconfig.h:
+
+/usr/local/include/glib-2.0/glib/gmacros.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/limits.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/features.h:
+
+/usr/include/i386-linux-gnu/bits/predefs.h:
+
+/usr/include/i386-linux-gnu/sys/cdefs.h:
+
+/usr/include/i386-linux-gnu/bits/wordsize.h:
+
+/usr/include/i386-linux-gnu/gnu/stubs.h:
+
+/usr/include/i386-linux-gnu/gnu/stubs-32.h:
+
+/usr/include/i386-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/i386-linux-gnu/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/i386-linux-gnu/bits/posix2_lim.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include/float.h:
+
+/usr/local/include/glib-2.0/glib/gversionmacros.h:
+
+/usr/include/time.h:
+
+/usr/include/i386-linux-gnu/bits/time.h:
+
+/usr/include/i386-linux-gnu/bits/types.h:
+
+/usr/include/i386-linux-gnu/bits/typesizes.h:
+
+/usr/include/xlocale.h:
+
+/usr/local/include/glib-2.0/glib/garray.h:
+
+/usr/local/include/glib-2.0/glib/gasyncqueue.h:
+
+/usr/local/include/glib-2.0/glib/gthread.h:
+
+/usr/local/include/glib-2.0/glib/gatomic.h:
+
+/usr/local/include/glib-2.0/glib/gerror.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h:
+
+/usr/local/include/glib-2.0/glib/gquark.h:
+
+/usr/local/include/glib-2.0/glib/gbacktrace.h:
+
+/usr/include/signal.h:
+
+/usr/include/i386-linux-gnu/bits/sigset.h:
+
+/usr/include/i386-linux-gnu/bits/signum.h:
+
+/usr/include/i386-linux-gnu/bits/siginfo.h:
+
+/usr/include/i386-linux-gnu/bits/sigaction.h:
+
+/usr/include/i386-linux-gnu/bits/sigcontext.h:
+
+/usr/include/i386-linux-gnu/asm/sigcontext.h:
+
+/usr/include/linux/types.h:
+
+/usr/include/i386-linux-gnu/asm/types.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/asm-generic/int-ll64.h:
+
+/usr/include/i386-linux-gnu/asm/bitsperlong.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/linux/posix_types.h:
+
+/usr/include/linux/stddef.h:
+
+/usr/include/i386-linux-gnu/asm/posix_types.h:
+
+/usr/include/i386-linux-gnu/asm/posix_types_32.h:
+
+/usr/include/i386-linux-gnu/bits/sigstack.h:
+
+/usr/include/i386-linux-gnu/sys/ucontext.h:
+
+/usr/include/i386-linux-gnu/bits/pthreadtypes.h:
+
+/usr/include/i386-linux-gnu/bits/sigthread.h:
+
+/usr/local/include/glib-2.0/glib/gbase64.h:
+
+/usr/local/include/glib-2.0/glib/gbitlock.h:
+
+/usr/local/include/glib-2.0/glib/gbookmarkfile.h:
+
+/usr/local/include/glib-2.0/glib/gbytes.h:
+
+/usr/local/include/glib-2.0/glib/gcharset.h:
+
+/usr/local/include/glib-2.0/glib/gchecksum.h:
+
+/usr/local/include/glib-2.0/glib/gconvert.h:
+
+/usr/local/include/glib-2.0/glib/gdataset.h:
+
+/usr/local/include/glib-2.0/glib/gdate.h:
+
+/usr/local/include/glib-2.0/glib/gdatetime.h:
+
+/usr/local/include/glib-2.0/glib/gtimezone.h:
+
+/usr/local/include/glib-2.0/glib/gdir.h:
+
+/usr/local/include/glib-2.0/glib/genviron.h:
+
+/usr/local/include/glib-2.0/glib/gfileutils.h:
+
+/usr/local/include/glib-2.0/glib/ggettext.h:
+
+/usr/local/include/glib-2.0/glib/ghash.h:
+
+/usr/local/include/glib-2.0/glib/glist.h:
+
+/usr/local/include/glib-2.0/glib/gmem.h:
+
+/usr/local/include/glib-2.0/glib/ghmac.h:
+
+/usr/local/include/glib-2.0/glib/gchecksum.h:
+
+/usr/local/include/glib-2.0/glib/ghook.h:
+
+/usr/local/include/glib-2.0/glib/ghostutils.h:
+
+/usr/local/include/glib-2.0/glib/giochannel.h:
+
+/usr/local/include/glib-2.0/glib/gmain.h:
+
+/usr/local/include/glib-2.0/glib/gpoll.h:
+
+/usr/local/include/glib-2.0/glib/gslist.h:
+
+/usr/local/include/glib-2.0/glib/gstring.h:
+
+/usr/local/include/glib-2.0/glib/gunicode.h:
+
+/usr/local/include/glib-2.0/glib/gutils.h:
+
+/usr/local/include/glib-2.0/glib/gkeyfile.h:
+
+/usr/local/include/glib-2.0/glib/gmappedfile.h:
+
+/usr/local/include/glib-2.0/glib/gmarkup.h:
+
+/usr/local/include/glib-2.0/glib/gmessages.h:
+
+/usr/local/include/glib-2.0/glib/gnode.h:
+
+/usr/local/include/glib-2.0/glib/goption.h:
+
+/usr/local/include/glib-2.0/glib/gpattern.h:
+
+/usr/local/include/glib-2.0/glib/gprimes.h:
+
+/usr/local/include/glib-2.0/glib/gqsort.h:
+
+/usr/local/include/glib-2.0/glib/gqueue.h:
+
+/usr/local/include/glib-2.0/glib/grand.h:
+
+/usr/local/include/glib-2.0/glib/gregex.h:
+
+/usr/local/include/glib-2.0/glib/gscanner.h:
+
+/usr/local/include/glib-2.0/glib/gsequence.h:
+
+/usr/local/include/glib-2.0/glib/gshell.h:
+
+/usr/local/include/glib-2.0/glib/gslice.h:
+
+/usr/local/include/glib-2.0/glib/gspawn.h:
+
+/usr/local/include/glib-2.0/glib/gstrfuncs.h:
+
+/usr/local/include/glib-2.0/glib/gstringchunk.h:
+
+/usr/local/include/glib-2.0/glib/gtestutils.h:
+
+/usr/local/include/glib-2.0/glib/gthreadpool.h:
+
+/usr/local/include/glib-2.0/glib/gtimer.h:
+
+/usr/local/include/glib-2.0/glib/gtrashstack.h:
+
+/usr/local/include/glib-2.0/glib/gtree.h:
+
+/usr/local/include/glib-2.0/glib/gurifuncs.h:
+
+/usr/local/include/glib-2.0/glib/gvarianttype.h:
+
+/usr/local/include/glib-2.0/glib/gvariant.h:
+
+/usr/local/include/glib-2.0/glib/gversion.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/gallocator.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/gcache.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/gcompletion.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/gmain.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/grel.h:
+
+/usr/local/include/glib-2.0/glib/deprecated/gthread.h:
+
+/usr/include/pthread.h:
+
+/usr/include/endian.h:
+
+/usr/include/i386-linux-gnu/bits/endian.h:
+
+/usr/include/i386-linux-gnu/bits/byteswap.h:
+
+/usr/include/sched.h:
+
+/usr/include/i386-linux-gnu/bits/sched.h:
+
+/usr/include/i386-linux-gnu/bits/setjmp.h:
+
+/usr/local/include/gstreamer-0.10/gst/glib-compat.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstenumtypes.h:
+
+/usr/local/include/glib-2.0/glib-object.h:
+
+/usr/local/include/glib-2.0/gobject/gbinding.h:
+
+/usr/local/include/glib-2.0/gobject/gobject.h:
+
+/usr/local/include/glib-2.0/gobject/gtype.h:
+
+/usr/local/include/glib-2.0/gobject/gvalue.h:
+
+/usr/local/include/glib-2.0/gobject/gparam.h:
+
+/usr/local/include/glib-2.0/gobject/gclosure.h:
+
+/usr/local/include/glib-2.0/gobject/gsignal.h:
+
+/usr/local/include/glib-2.0/gobject/gmarshal.h:
+
+/usr/local/include/glib-2.0/gobject/gboxed.h:
+
+/usr/local/include/glib-2.0/gobject/glib-types.h:
+
+/usr/local/include/glib-2.0/gobject/genums.h:
+
+/usr/local/include/glib-2.0/gobject/gparamspecs.h:
+
+/usr/local/include/glib-2.0/gobject/gsourceclosure.h:
+
+/usr/local/include/glib-2.0/gobject/gtypemodule.h:
+
+/usr/local/include/glib-2.0/gobject/gtypeplugin.h:
+
+/usr/local/include/glib-2.0/gobject/gvaluearray.h:
+
+/usr/local/include/glib-2.0/gobject/gvaluetypes.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstversion.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstatomicqueue.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstbin.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstelement.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstconfig.h:
+
+/usr/include/libxml2/libxml/parser.h:
+
+/usr/include/libxml2/libxml/xmlversion.h:
+
+/usr/include/libxml2/libxml/xmlexports.h:
+
+/usr/include/libxml2/libxml/tree.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/include/i386-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/i386-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/i386-linux-gnu/bits/stdio.h:
+
+/usr/include/i386-linux-gnu/bits/stdio2.h:
+
+/usr/include/libxml2/libxml/xmlstring.h:
+
+/usr/include/libxml2/libxml/xmlregexp.h:
+
+/usr/include/libxml2/libxml/dict.h:
+
+/usr/include/libxml2/libxml/hash.h:
+
+/usr/include/libxml2/libxml/valid.h:
+
+/usr/include/libxml2/libxml/xmlerror.h:
+
+/usr/include/libxml2/libxml/list.h:
+
+/usr/include/libxml2/libxml/xmlautomata.h:
+
+/usr/include/libxml2/libxml/entities.h:
+
+/usr/include/libxml2/libxml/encoding.h:
+
+/usr/include/iconv.h:
+
+/usr/include/libxml2/libxml/xmlIO.h:
+
+/usr/include/libxml2/libxml/globals.h:
+
+/usr/include/libxml2/libxml/SAX.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/i386-linux-gnu/bits/waitflags.h:
+
+/usr/include/i386-linux-gnu/bits/waitstatus.h:
+
+/usr/include/i386-linux-gnu/sys/types.h:
+
+/usr/include/i386-linux-gnu/sys/select.h:
+
+/usr/include/i386-linux-gnu/bits/select.h:
+
+/usr/include/i386-linux-gnu/bits/select2.h:
+
+/usr/include/i386-linux-gnu/sys/sysmacros.h:
+
+/usr/include/alloca.h:
+
+/usr/include/i386-linux-gnu/bits/stdlib.h:
+
+/usr/include/libxml2/libxml/xlink.h:
+
+/usr/include/libxml2/libxml/SAX2.h:
+
+/usr/include/libxml2/libxml/xmlmemory.h:
+
+/usr/include/libxml2/libxml/threads.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstobject.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpad.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstbuffer.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstminiobject.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstclock.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstcaps.h:
+
+/usr/local/include/gstreamer-0.10/gst/gststructure.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstdatetime.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstbufferlist.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstevent.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstformat.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstiterator.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttaglist.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttoc.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstquery.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttask.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttaskpool.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpadtemplate.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstbus.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstmessage.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstelementfactory.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstplugin.h:
+
+/usr/include/i386-linux-gnu/sys/stat.h:
+
+/usr/include/i386-linux-gnu/bits/stat.h:
+
+/usr/local/include/glib-2.0/gmodule.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstmacros.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpluginfeature.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstindex.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstindexfactory.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstchildproxy.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstdebugutils.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsterror.h:
+
+/usr/include/errno.h:
+
+/usr/include/i386-linux-gnu/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/i386-linux-gnu/asm/errno.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstghostpad.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstinfo.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstinterface.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstmarshal.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstparamspecs.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstvalue.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpipeline.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpoll.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstpreset.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstregistry.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstsegment.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstsystemclock.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttagsetter.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttocsetter.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttrace.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttypefind.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsttypefindfactory.h:
+
+/usr/local/include/gstreamer-0.10/gst/gsturi.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstutils.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstparse.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstxml.h:
+
+/usr/local/include/gstreamer-0.10/gst/gstcompat.h:
+
+gstopencvvideofilter.h:
+
+/usr/local/include/gstreamer-0.10/gst/video/gstvideofilter.h:
+
+/usr/local/include/gstreamer-0.10/gst/base/gstbasetransform.h:
+
+/usr/local/include/opencv/cv.h:
+
+/usr/local/include/opencv2/core/core_c.h:
+
+/usr/local/include/opencv2/core/types_c.h:
+
+/usr/include/assert.h:
+
+/usr/include/string.h:
+
+/usr/include/i386-linux-gnu/bits/string.h:
+
+/usr/include/i386-linux-gnu/bits/string2.h:
+
+/usr/include/i386-linux-gnu/bits/string3.h:
+
+/usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/i386-linux-gnu/bits/wchar.h:
+
+/usr/include/math.h:
+
+/usr/include/i386-linux-gnu/bits/huge_val.h:
+
+/usr/include/i386-linux-gnu/bits/huge_valf.h:
+
+/usr/include/i386-linux-gnu/bits/huge_vall.h:
+
+/usr/include/i386-linux-gnu/bits/inf.h:
+
+/usr/include/i386-linux-gnu/bits/nan.h:
+
+/usr/include/i386-linux-gnu/bits/mathdef.h:
+
+/usr/include/i386-linux-gnu/bits/mathcalls.h:
+
+/usr/include/i386-linux-gnu/bits/mathinline.h:
+
+/usr/local/include/opencv2/core/core.hpp:
+
+/usr/local/include/opencv2/core/version.hpp:
+
+/usr/local/include/opencv2/core/operations.hpp:
+
+/usr/local/include/opencv2/core/mat.hpp:
+
+/usr/local/include/opencv2/imgproc/imgproc_c.h:
+
+/usr/local/include/opencv2/imgproc/types_c.h:
+
+/usr/local/include/opencv2/imgproc/imgproc.hpp:
+
+/usr/local/include/opencv2/video/tracking.hpp:
+
+/usr/local/include/opencv2/features2d/features2d.hpp:
+
+/usr/local/include/opencv2/flann/flann.hpp:
+
+/usr/local/include/opencv2/calib3d/calib3d.hpp:
+
+/usr/local/include/opencv2/objdetect/objdetect.hpp:
+
+/usr/local/include/opencv2/legacy/compat.hpp:
+
+gstopencvutils.h:
+
+/usr/local/include/gstreamer-0.10/gst/video/video.h:
+
+/usr/local/include/gstreamer-0.10/gst/video/video-enumtypes.h:

@@ -1,7 +1,7 @@
 #! /bin/sh
 
 test -n "$srcdir" || srcdir=`dirname "$0"`
-test -n "$srcdir" || srcdir=./src
+test -n "$srcdir" || srcdir=.
 (
   cd "$srcdir" &&
   autoreconf --force -v --install
