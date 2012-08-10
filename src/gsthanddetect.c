@@ -168,17 +168,14 @@ gst_handdetect_navigation_send_event (GstNavigation * navigation,
     GstStructure * structure)
 {
   GstHanddetect *filter = GST_HANDDETECT (navigation);
-  GstBaseTransform *trans = GST_BASE_TRANSFORM_CAST (filter);
-  GstEvent *event;
-  GstPad *pad;
+  GstPad *peer;
 
-  pad = gst_pad_get_peer (trans->srcpad);
-  event = gst_event_new_navigation (structure);
-
-  if (GST_IS_PAD (pad) && GST_IS_EVENT (event))
-    gst_pad_send_event (pad, event);
-
-  gst_object_unref (pad);
+  if ((peer = gst_pad_get_peer (GST_BASE_TRANSFORM_SINK_PAD (filter)))) {
+    GstEvent *event;
+    event = gst_event_new_navigation (structure);
+    gst_pad_send_event (peer, event);
+    gst_object_unref (peer);
+  }
 }
 
 /* handle element pad event */
@@ -186,13 +183,13 @@ static gboolean
 gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
 {
   const GstStructure *s = gst_event_get_structure (event);
-  const gchar *type = gst_structure_get_string (s, "event");
+  const gchar *name = gst_structure_get_string (s, "event");
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_EOS:
       break;
     case GST_EVENT_NAVIGATION:{
-      if (g_str_equal (type, "fist-move")) {
+      if (g_str_equal (name, "fist-move")) {
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Fist-move event\n ");
         uint x, y;
@@ -200,7 +197,7 @@ gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
         gst_structure_get_uint (s, "y", &y);
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Fist Pos:[%d, %d]\n", x, y);
-      } else if (g_str_equal (type, "palm-move")) {
+      } else if (g_str_equal (name, "palm-move")) {
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Palm-move event\n ");
         uint x, y;
@@ -208,15 +205,15 @@ gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
         gst_structure_get_uint (s, "y", &y);
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Palm Pos:[%d, %d]\n", x, y);
-      } else if (g_str_equal (type, "mouse-move")) {
+      } else if (g_str_equal (name, "mouse-move")) {
         gdouble x, y;
         gst_structure_get_double (s, "pointer_x", &x);
         gst_structure_get_double (s, "pointer_y", &y);
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Mouse-move [%f, %f]\n", x, y);
-      } else if (g_str_equal (type, "mouse-button-press")) {
+      } else if (g_str_equal (name, "mouse-button-press")) {
         GST_DEBUG ("Mouse botton press\n");
-      } else if (g_str_equal (type, "mouse-button-release")) {
+      } else if (g_str_equal (name, "mouse-button-release")) {
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Mouse button release\n");
       }
