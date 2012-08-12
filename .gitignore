@@ -10,6 +10,9 @@ opencv_handdetect/Debug/
 *.bak*
 *.cproject
 *.project
+*.libs
+*.deps
+
 
 ##
 *.7z
