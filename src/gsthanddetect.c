@@ -1,5 +1,5 @@
 /*
- * GStreamer hand gesture detect plugins
+ * GStreamer hand gesture detection plugins
  * Copyright (C) 2012 Andol Li <<andol@andol.info>>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -41,7 +41,7 @@
  * Boston, MA 02111-1307, USA.
  */
 /**
- * SECTION:element-handdetect
+ * SECTION:video-filter-handdetect
  *
  * FIXME:operates hand gesture detection in video streams and images,
  * and enable media operation e.g. play/stop/fast forward/back rewind.
@@ -88,7 +88,11 @@ enum
   PROP_0,
   PROP_DISPLAY,
   PROP_PROFILE,
-  PROP_PROFILE_PALM
+  PROP_PROFILE_PALM,
+  PROP_ROI_X,
+  PROP_ROI_Y,
+  PROP_ROI_WIDTH,
+  PROP_ROI_HEIGHT
 };
 
 /* the capabilities of the inputs and outputs */
@@ -110,8 +114,7 @@ static void gst_handdetect_get_property (GObject * object, guint prop_id,
 static gboolean gst_handdetect_set_caps (GstOpencvVideoFilter * transform,
     gint in_width, gint in_height, gint in_depth, gint in_channels,
     gint out_width, gint out_height, gint out_depth, gint out_channels);
-static GstFlowReturn gst_handdetect_transform (GstOpencvVideoFilter * transform,
-    GstBuffer * buffer, IplImage * img, GstBuffer * outbuf, IplImage * outimg);
+static GstFlowReturn gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffer, IplImage * img);
 
 static void gst_handdetect_load_profile (GstHanddetect * filter);
 
@@ -126,7 +129,6 @@ static void gst_handdetect_navigation_send_event (GstNavigation * navigation,
     GstStructure * structure);
 static gboolean gst_handdetect_handle_pad_event (GstPad * pad,
     GstEvent * event);
-//static void gst_handdetect_interface_init (GstImplementsInterfaceClass * klass);
 
 GST_BOILERPLATE_FULL (GstHanddetect, gst_handdetect, GstOpencvVideoFilter,
     GST_TYPE_OPENCV_VIDEO_FILTER, gst_handdetect_init_interfaces);
@@ -296,7 +298,7 @@ gst_handdetect_class_init (GstHanddetectClass * klass)
   gobject_class = (GObjectClass *) klass;
   gstopencvbasefilter_class = (GstOpencvVideoFilterClass *) klass;
 
-  gstopencvbasefilter_class->cv_trans_func = gst_handdetect_transform;
+  gstopencvbasefilter_class->cv_trans_ip_func = gst_handdetect_transform_ip;
   gstopencvbasefilter_class->cv_set_caps = gst_handdetect_set_caps;
 
   gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_handdetect_finalise);
@@ -324,6 +326,34 @@ gst_handdetect_class_init (GstHanddetectClass * klass)
           "Location of HAAR cascade file (palm gesture)",
           HAAR_FILE_PALM, G_PARAM_READWRITE)
       );
+  g_object_class_install_property (gobject_class,
+      PROP_ROI_X,
+      g_param_spec_uint ("ROI_X",
+          "ROI_X",
+          "X of left-top pointer in region of interest \nGestures in the defined region of interest will emit messages",
+          0, UINT_MAX, 0, G_PARAM_READWRITE)
+      );
+  g_object_class_install_property (gobject_class,
+      PROP_ROI_Y,
+      g_param_spec_uint ("ROI_Y",
+          "ROI_Y",
+          "Y of left-top pointer in region of interest \nGestures in the defined region of interest will emit messages",
+          0, UINT_MAX, 0, G_PARAM_READWRITE)
+      );
+  g_object_class_install_property (gobject_class,
+      PROP_ROI_WIDTH,
+      g_param_spec_uint ("ROI_WIDTH",
+          "ROI_WIDTH",
+          "WIDTH of left-top pointer in region of interest \nGestures in the defined region of interest will emit messages",
+          0, UINT_MAX, 0, G_PARAM_READWRITE)
+      );
+  g_object_class_install_property (gobject_class,
+      PROP_ROI_HEIGHT,
+      g_param_spec_uint ("ROI_HEIGHT",
+          "ROI_HEIGHT",
+          "HEIGHT of left-top pointer in region of interest \nGestures in the defined region of interest will emit messages",
+          0, UINT_MAX, 0, G_PARAM_READWRITE)
+      );
 }
 
 /* initialise the new element
@@ -341,8 +371,15 @@ gst_handdetect_init (GstHanddetect * filter, GstHanddetectClass * gclass)
 
   filter->profile = g_strdup (HAAR_FILE);
   filter->profile_palm = g_strdup (HAAR_FILE_PALM);
+  filter->roi_x = 0;
+  filter->roi_y = 0;
+  filter->roi_width = 0;
+  filter->roi_height = 0;
   filter->display = TRUE;
+
   gst_handdetect_load_profile (filter);
+
+  gst_opencv_video_filter_set_in_place (GST_OPENCV_VIDEO_FILTER_CAST (filter), TRUE);
 }
 
 static void
@@ -365,6 +402,18 @@ gst_handdetect_set_property (GObject * object, guint prop_id,
     case PROP_DISPLAY:
       filter->display = g_value_get_boolean (value);
       break;
+    case PROP_ROI_X:
+    	filter->roi_x = g_value_get_uint (value);
+    	break;
+    case PROP_ROI_Y:
+    	filter->roi_y = g_value_get_uint (value);
+    	break;
+    case PROP_ROI_WIDTH:
+    	filter->roi_width = g_value_get_uint (value);
+    	break;
+    case PROP_ROI_HEIGHT:
+    	filter->roi_height = g_value_get_uint (value);
+    	break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -386,6 +435,18 @@ gst_handdetect_get_property (GObject * object, guint prop_id, GValue * value,
       break;
     case PROP_DISPLAY:
       g_value_set_boolean (value, filter->display);
+      break;
+    case PROP_ROI_X:
+      g_value_set_uint (value, filter->roi_x);
+      break;
+    case PROP_ROI_Y:
+      g_value_set_uint (value, filter->roi_y);
+      break;
+    case PROP_ROI_WIDTH:
+      g_value_set_uint (value, filter->roi_width);
+      break;
+    case PROP_ROI_HEIGHT:
+      g_value_set_uint (value, filter->roi_height);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -427,20 +488,15 @@ gst_handdetect_set_caps (GstOpencvVideoFilter * transform,
  * This function does the actual processing 'of hand detect and display'
  */
 static GstFlowReturn
-gst_handdetect_transform (GstOpencvVideoFilter * base, GstBuffer * buffer,
-    IplImage * img, GstBuffer * outbuf, IplImage * outimg)
+gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffer, IplImage * img)
 {
-  GstHanddetect *filter = GST_HANDDETECT (base);
-  GstBaseTransform *trans = GST_BASE_TRANSFORM_CAST (filter);
-  GstPad *pad = trans->srcpad;
-
+  GstHanddetect *filter = GST_HANDDETECT (transform);
   CvSeq *hands;
   CvRect *r;
   GstStructure *s;
   GstMessage *m;
   int i;
 
-  filter = GST_HANDDETECT (base);
   filter->cvImage->imageData = (char *) GST_BUFFER_DATA (buffer);
   /* 320 x 240 is with the best detect accuracy, if not, give info */
   if (filter->cvImage->width > 320 || filter->cvImage->height > 240)
@@ -498,32 +554,35 @@ gst_handdetect_transform (GstOpencvVideoFilter * base, GstBuffer * buffer,
       /* Save best_r as prev_r for next frame comparison */
       filter->prev_r = (CvRect *) filter->best_r;
 
-      /* Define structure for message post */
-      s = gst_structure_new ("detected_hand_info",
-          "gesture", G_TYPE_STRING, "fist",
-          "x", G_TYPE_UINT,
-          (uint) (filter->best_r->x + filter->best_r->width * 0.5), "y",
-          G_TYPE_UINT,
-          (uint) (filter->best_r->y + filter->best_r->height * 0.5), "width",
-          G_TYPE_UINT, (uint) filter->best_r->width, "height", G_TYPE_UINT,
-          (uint) filter->best_r->height, NULL);
-      /* Init message element */
-      m = gst_message_new_element (GST_OBJECT (filter), s);
-      /* Send message */
-      gst_element_post_message (GST_ELEMENT (filter), m);
-
-      /* Define structure for event */
-      s = gst_structure_new ("fist-move",
-          "event", G_TYPE_STRING, "fist-move",
-          "x", G_TYPE_UINT,
-          (uint) (filter->best_r->x + filter->best_r->width * 0.5), "y",
-          G_TYPE_UINT,
-          (uint) (filter->best_r->y + filter->best_r->height * 0.5), "width",
-          G_TYPE_UINT, (uint) filter->best_r->width, "height", G_TYPE_UINT,
-          (uint) filter->best_r->height, NULL);
-      /* Set and send navigation event */
-      GstEvent *event = gst_event_new_navigation (s);
-      gst_pad_send_event (trans->srcpad, event);
+      /* send msg to app/bus if the detected gesture falls in the region of interest */
+      /* get center point of gesture */
+      CvPoint c = cvPoint(filter->best_r->x + filter->best_r->width/2,
+    		  filter->best_r->y + filter->best_r->height / 2);
+      /* send message:
+       * if the center point is in the region of interest, OR,
+       * if the region of interest remains default as (0,0,0,0)*/
+      if((c.x >= filter->roi_x
+    		  && c.x <= (filter->roi_x + filter->roi_width)
+    		  && c.y >= filter->roi_y
+    		  && c.y <= (filter->roi_y + filter->roi_height))
+    		  || (filter->roi_x == 0
+    				  && filter->roi_y == 0
+    				  && filter->roi_width == 0
+    				  && filter->roi_height == 0)){
+		  /* Define structure for message post */
+		  s = gst_structure_new ("detected_hand_info",
+			  "gesture", G_TYPE_STRING, "fist",
+			  "x", G_TYPE_UINT,
+			  (uint) (filter->best_r->x + filter->best_r->width * 0.5), "y",
+			  G_TYPE_UINT,
+			  (uint) (filter->best_r->y + filter->best_r->height * 0.5), "width",
+			  G_TYPE_UINT, (uint) filter->best_r->width, "height", G_TYPE_UINT,
+			  (uint) filter->best_r->height, NULL);
+		  /* Init message element */
+		  m = gst_message_new_element (GST_OBJECT (filter), s);
+		  /* Send message */
+		  gst_element_post_message (GST_ELEMENT (filter), m);
+      }
 
       /* Check filter->display,
        * If TRUE, displaying red circle marker in the out frame */
@@ -538,10 +597,8 @@ gst_handdetect_transform (GstOpencvVideoFilter * base, GstBuffer * buffer,
       }
     }
   }
-  /* Push out the incoming buffer
-   * Outbuf = the copy of writable input buffer with/without circle marker */
-  outbuf = gst_buffer_copy (buffer);
-  return gst_pad_push (pad, outbuf);
+  /* Push out the incoming buffer */
+  return GST_FLOW_OK; //gst_pad_push (pad, outbuf);
 }
 
 static void

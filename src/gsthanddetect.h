@@ -84,8 +84,11 @@ struct _GstHanddetect
 
   gboolean display;
   gchar *profile, *profile_palm;
-
-  gdouble x, y;
+  /* region of interest */
+  uint roi_x;
+  uint roi_y;
+  uint roi_width;
+  uint roi_height;
 
   /* opencv
    * cvImage - image from video cam,
