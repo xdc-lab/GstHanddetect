@@ -3,7 +3,11 @@ lib_LTLIBRARIES = libgsthanddetect.la
 libgsthanddetect_la_LIBADD = $(GST_LIBS)
 libgsthanddetect_la_SOURCES = \
 gsthanddetect.c \
-gsthanddetect.h 
+gsthanddetect.h \
+gstopencvvideofilter.c \
+gstopencvvideofilter.h \
+gstopencvutils.c \
+gstopencvutils.h
 
 AM_CPPFLAGS = $(GST_CFLAGS)
 
