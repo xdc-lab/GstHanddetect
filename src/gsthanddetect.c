@@ -572,20 +572,22 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
             0,
             (double) (filter->best_r->x + filter->best_r->width * 0.5),
             (double) (filter->best_r->y + filter->best_r->height * 0.5));
-#endif
-        /*
-           GstEvent *event =
-           gst_event_new_navigation (gst_structure_new
-           ("application/x-gst-navigation", "event", G_TYPE_STRING,
-           "mouse-move",
-           "button", G_TYPE_INT, 0,
-           "pointer_x", G_TYPE_DOUBLE,
-           (double) (filter->best_r->x + filter->best_r->width * 0.5),
-           "pointer_y", G_TYPE_DOUBLE,
-           (double) (filter->best_r->y + filter->best_r->height * 0.5),
-           NULL));
-           gst_pad_send_event (GST_BASE_TRANSFORM_CAST (filter)->srcpad, event);
+
+        /* or use another way to send upstream navigation event for debug
+         *
+         * GstEvent *event =
+         * gst_event_new_navigation (gst_structure_new
+         * ("application/x-gst-navigation", "event", G_TYPE_STRING,
+         * "mouse-move",
+         * "button", G_TYPE_INT, 0,
+         * "pointer_x", G_TYPE_DOUBLE,
+         * (double) (filter->best_r->x + filter->best_r->width * 0.5),
+         * "pointer_y", G_TYPE_DOUBLE,
+         * (double) (filter->best_r->y + filter->best_r->height * 0.5),
+         * NULL));
+         * gst_pad_send_event (GST_BASE_TRANSFORM_CAST (filter)->srcpad, event);
          */
+#endif
       }
 
       /* Check filter->display,
