@@ -54,6 +54,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <gst/gst.h>
+#include <gst/video/gstvideofilter.h>
 /* opencv includes */
 #include <opencv/cv.h>
 #include <opencv/cxcore.h>

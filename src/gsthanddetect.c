@@ -114,15 +114,16 @@ static void gst_handdetect_get_property (GObject * object, guint prop_id,
 static gboolean gst_handdetect_set_caps (GstOpencvVideoFilter * transform,
     gint in_width, gint in_height, gint in_depth, gint in_channels,
     gint out_width, gint out_height, gint out_depth, gint out_channels);
-static GstFlowReturn gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffer, IplImage * img);
+static GstFlowReturn gst_handdetect_transform_ip (GstOpencvVideoFilter *
+    transform, GstBuffer * buffer, IplImage * img);
 
 static void gst_handdetect_load_profile (GstHanddetect * filter);
 
 static void gst_handdetect_init_interfaces (GType type);
 static void
 gst_handdetect_implements_interface_init (GstImplementsInterfaceClass * klass);
-static void gst_handdetect_navigation_interface_init (GstNavigationInterface *
-    iface);
+static void gst_handdetect_navigation_interface_init (gpointer g_iface,
+    gpointer iface_data);
 static gboolean gst_handdetect_interface_supported (GstImplementsInterface *
     iface, GType type);
 static void gst_handdetect_navigation_send_event (GstNavigation * navigation,
@@ -143,11 +144,18 @@ gst_handdetect_init_interfaces (GType type)
   };
   g_type_add_interface_static (type, GST_TYPE_IMPLEMENTS_INTERFACE,
       &iface_info);
+  static const GInterfaceInfo navigation_info = {
+    (GInterfaceInitFunc) gst_handdetect_navigation_interface_init,
+    NULL,
+    NULL,
+  };
+  g_type_add_interface_static (type, GST_TYPE_NAVIGATION, &navigation_info);
 }
 
 static void
-gst_handdetect_navigation_interface_init (GstNavigationInterface * iface)
+gst_handdetect_navigation_interface_init (gpointer g_iface, gpointer iface_data)
 {
+  GstNavigationInterface *iface = (GstNavigationInterface *) g_iface;
   iface->send_event = gst_handdetect_navigation_send_event;
 }
 
@@ -172,7 +180,7 @@ gst_handdetect_navigation_send_event (GstNavigation * navigation,
   GstHanddetect *filter = GST_HANDDETECT (navigation);
   GstPad *peer;
 
-  if ((peer = gst_pad_get_peer (GST_BASE_TRANSFORM_SINK_PAD (filter)))) {
+  if ((peer = gst_pad_get_peer (GST_BASE_TRANSFORM_CAST (filter)->sinkpad))) {
     GstEvent *event;
     event = gst_event_new_navigation (structure);
     gst_pad_send_event (peer, event);
@@ -199,6 +207,7 @@ gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
         gst_structure_get_uint (s, "y", &y);
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Fist Pos:[%d, %d]\n", x, y);
+        g_print ("fist-move{%d, %d}\n", x, y);
       } else if (g_str_equal (name, "palm-move")) {
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Palm-move event\n ");
@@ -213,6 +222,7 @@ gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
         gst_structure_get_double (s, "pointer_y", &y);
         GST_DEBUG_OBJECT (GST_HANDDETECT (gst_pad_get_parent (pad)),
             "Mouse-move [%f, %f]\n", x, y);
+        g_print ("mouse-move{%f, %f}\n", x, y);
       } else if (g_str_equal (name, "mouse-button-press")) {
         GST_DEBUG ("Mouse botton press\n");
       } else if (g_str_equal (name, "mouse-button-release")) {
@@ -225,35 +235,6 @@ gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
       break;
   }
   return gst_pad_event_default (pad, event);
-}
-
-static void
-gst_navigation_class_init (GstNavigationInterface * iface)
-{
-  /* default virtual functions */
-  iface->send_event = gst_handdetect_navigation_send_event;
-}
-
-GType
-gst_navigation_get_type (void)
-{
-  static GType navigation_type = 0;
-  static const GTypeInfo navigation_info = {
-    sizeof (GstNavigationInterface),
-    (GBaseInitFunc) gst_navigation_class_init,
-    NULL,
-    (GClassInitFunc) gst_handdetect_navigation_interface_init,
-    NULL,
-    NULL,
-    0,
-    0,
-    NULL,
-  };
-
-  navigation_type =
-      g_type_register_static (G_TYPE_INTERFACE, "GstNavigation",
-      &navigation_info, 0);
-  return navigation_type;
 }
 
 /* clean opencv images and parameters */
@@ -379,7 +360,8 @@ gst_handdetect_init (GstHanddetect * filter, GstHanddetectClass * gclass)
 
   gst_handdetect_load_profile (filter);
 
-  gst_opencv_video_filter_set_in_place (GST_OPENCV_VIDEO_FILTER_CAST (filter), TRUE);
+  gst_opencv_video_filter_set_in_place (GST_OPENCV_VIDEO_FILTER_CAST (filter),
+      TRUE);
 }
 
 static void
@@ -403,17 +385,17 @@ gst_handdetect_set_property (GObject * object, guint prop_id,
       filter->display = g_value_get_boolean (value);
       break;
     case PROP_ROI_X:
-    	filter->roi_x = g_value_get_uint (value);
-    	break;
+      filter->roi_x = g_value_get_uint (value);
+      break;
     case PROP_ROI_Y:
-    	filter->roi_y = g_value_get_uint (value);
-    	break;
+      filter->roi_y = g_value_get_uint (value);
+      break;
     case PROP_ROI_WIDTH:
-    	filter->roi_width = g_value_get_uint (value);
-    	break;
+      filter->roi_width = g_value_get_uint (value);
+      break;
     case PROP_ROI_HEIGHT:
-    	filter->roi_height = g_value_get_uint (value);
-    	break;
+      filter->roi_height = g_value_get_uint (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -488,7 +470,8 @@ gst_handdetect_set_caps (GstOpencvVideoFilter * transform,
  * This function does the actual processing 'of hand detect and display'
  */
 static GstFlowReturn
-gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffer, IplImage * img)
+gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
+    GstBuffer * buffer, IplImage * img)
 {
   GstHanddetect *filter = GST_HANDDETECT (transform);
   CvSeq *hands;
@@ -556,32 +539,52 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffe
 
       /* send msg to app/bus if the detected gesture falls in the region of interest */
       /* get center point of gesture */
-      CvPoint c = cvPoint(filter->best_r->x + filter->best_r->width/2,
-    		  filter->best_r->y + filter->best_r->height / 2);
+      CvPoint c = cvPoint (filter->best_r->x + filter->best_r->width / 2,
+          filter->best_r->y + filter->best_r->height / 2);
       /* send message:
        * if the center point is in the region of interest, OR,
        * if the region of interest remains default as (0,0,0,0)*/
-      if((c.x >= filter->roi_x
-    		  && c.x <= (filter->roi_x + filter->roi_width)
-    		  && c.y >= filter->roi_y
-    		  && c.y <= (filter->roi_y + filter->roi_height))
-    		  || (filter->roi_x == 0
-    				  && filter->roi_y == 0
-    				  && filter->roi_width == 0
-    				  && filter->roi_height == 0)){
-		  /* Define structure for message post */
-		  s = gst_structure_new ("detected_hand_info",
-			  "gesture", G_TYPE_STRING, "fist",
-			  "x", G_TYPE_UINT,
-			  (uint) (filter->best_r->x + filter->best_r->width * 0.5), "y",
-			  G_TYPE_UINT,
-			  (uint) (filter->best_r->y + filter->best_r->height * 0.5), "width",
-			  G_TYPE_UINT, (uint) filter->best_r->width, "height", G_TYPE_UINT,
-			  (uint) filter->best_r->height, NULL);
-		  /* Init message element */
-		  m = gst_message_new_element (GST_OBJECT (filter), s);
-		  /* Send message */
-		  gst_element_post_message (GST_ELEMENT (filter), m);
+      if ((c.x >= filter->roi_x && c.x <= (filter->roi_x + filter->roi_width)
+              && c.y >= filter->roi_y
+              && c.y <= (filter->roi_y + filter->roi_height))
+          || (filter->roi_x == 0
+              && filter->roi_y == 0
+              && filter->roi_width == 0 && filter->roi_height == 0)) {
+        /* Define structure for message post */
+        s = gst_structure_new ("detected_hand_info",
+            "gesture", G_TYPE_STRING, "fist",
+            "x", G_TYPE_UINT,
+            (uint) (filter->best_r->x + filter->best_r->width * 0.5), "y",
+            G_TYPE_UINT,
+            (uint) (filter->best_r->y + filter->best_r->height * 0.5), "width",
+            G_TYPE_UINT, (uint) filter->best_r->width, "height", G_TYPE_UINT,
+            (uint) filter->best_r->height, NULL);
+        /* Init message element */
+        m = gst_message_new_element (GST_OBJECT (filter), s);
+        /* Send message */
+        gst_element_post_message (GST_ELEMENT (filter), m);
+
+        /* send event
+         * here using mouse-move event instead of fist-move or palm-move event
+         * !!! this will CHANGE in the future !!!
+         * !!! by adding gst_navigation_send_hand_detect_event() in navigation.c !!!
+         */
+//        gst_navigation_send_mouse_event (GST_NAVIGATION (filter),
+//            "mouse-move",
+//            0,
+//            (double) (filter->best_r->x + filter->best_r->width * 0.5),
+//            (double) (filter->best_r->y + filter->best_r->height * 0.5));
+        GstEvent *event =
+            gst_event_new_navigation (gst_structure_new
+            ("application/x-gst-navigation", "event", G_TYPE_STRING,
+                "mouse-move",
+                "button", G_TYPE_INT, 0,
+                "pointer_x", G_TYPE_DOUBLE,
+                (double) (filter->best_r->x + filter->best_r->width * 0.5),
+                "pointer_y", G_TYPE_DOUBLE,
+                (double) (filter->best_r->y + filter->best_r->height * 0.5),
+                NULL));
+        gst_pad_send_event (GST_BASE_TRANSFORM_CAST (filter)->srcpad, event);
       }
 
       /* Check filter->display,
@@ -598,7 +601,7 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform, GstBuffer * buffe
     }
   }
   /* Push out the incoming buffer */
-  return GST_FLOW_OK; //gst_pad_push (pad, outbuf);
+  return GST_FLOW_OK;           //gst_pad_push (pad, outbuf);
 }
 
 static void
