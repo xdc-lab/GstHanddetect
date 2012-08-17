@@ -513,9 +513,8 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
      * best_r => best hand in this frame
      */
     if (hands && hands->total > 0) {
-      /* Init distance for comparisons,
-       * 400 is the maximum distance in 320x240 frame */
-      int min_distance = 400;
+      /* suppose a min_distance for init comparison */
+      int min_distance = filter->cvImage->width + filter->cvImage->height;
       /* Init filter->prev_r */
       CvRect temp_r = cvRect (0, 0, 0, 0);
       if (filter->prev_r == NULL)
@@ -562,8 +561,9 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
         /* Send message */
         gst_element_post_message (GST_ELEMENT (filter), m);
 
+#if 0
         /* send event
-         * here using mouse-move event instead of fist-move or palm-move event
+         * here we use mouse-move event instead of fist-move or palm-move event
          * !!! this will CHANGE in the future !!!
          * !!! by adding gst_navigation_send_hand_detect_event() in navigation.c !!!
          */
@@ -572,19 +572,20 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
             0,
             (double) (filter->best_r->x + filter->best_r->width * 0.5),
             (double) (filter->best_r->y + filter->best_r->height * 0.5));
+#endif
         /*
-        GstEvent *event =
-            gst_event_new_navigation (gst_structure_new
-            ("application/x-gst-navigation", "event", G_TYPE_STRING,
-                "mouse-move",
-                "button", G_TYPE_INT, 0,
-                "pointer_x", G_TYPE_DOUBLE,
-                (double) (filter->best_r->x + filter->best_r->width * 0.5),
-                "pointer_y", G_TYPE_DOUBLE,
-                (double) (filter->best_r->y + filter->best_r->height * 0.5),
-                NULL));
-        gst_pad_send_event (GST_BASE_TRANSFORM_CAST (filter)->srcpad, event);
-        */
+           GstEvent *event =
+           gst_event_new_navigation (gst_structure_new
+           ("application/x-gst-navigation", "event", G_TYPE_STRING,
+           "mouse-move",
+           "button", G_TYPE_INT, 0,
+           "pointer_x", G_TYPE_DOUBLE,
+           (double) (filter->best_r->x + filter->best_r->width * 0.5),
+           "pointer_y", G_TYPE_DOUBLE,
+           (double) (filter->best_r->y + filter->best_r->height * 0.5),
+           NULL));
+           gst_pad_send_event (GST_BASE_TRANSFORM_CAST (filter)->srcpad, event);
+         */
       }
 
       /* Check filter->display,
