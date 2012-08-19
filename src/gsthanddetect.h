@@ -55,14 +55,14 @@
 #include <stdlib.h>
 #include <gst/gst.h>
 #include <gst/video/gstvideofilter.h>
-/* opencv includes */
+#include "gstopencvvideofilter.h"
+/* opencv */
 #include <opencv/cv.h>
 #include <opencv/cxcore.h>
 #include <opencv/highgui.h>
 #if (CV_MAJOR_VERSION >= 2) && (CV_MINOR_VERSION >= 2)
 #include <opencv2/objdetect/objdetect.hpp>
 #endif
-#include "gstopencvvideofilter.h"
 
 G_BEGIN_DECLS
 /* #defines don't like whitespacey bits */
@@ -84,7 +84,8 @@ struct _GstHanddetect
   GstOpencvVideoFilter element;
 
   gboolean display;
-  gchar *profile, *profile_palm;
+  gchar *profile_fist;
+  gchar *profile_palm;
   /* region of interest */
   uint roi_x;
   uint roi_y;
@@ -93,8 +94,7 @@ struct _GstHanddetect
 
   /* opencv
    * cvImage - image from video cam,
-   * scvImage - resized small cvImage,
-   * and cvGray - cvt scvImage color into gray
+   * cvGray -  cvt cvImage to gray colour
    */
   IplImage *cvImage;
   IplImage *cvGray;
