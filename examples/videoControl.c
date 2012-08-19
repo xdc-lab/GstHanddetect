@@ -15,6 +15,8 @@
 #include <glib.h>
 #include <glib-object.h>
 
+#define PROFILE_FIST "/usr/local/share/opencv/haarcascades/fist.xml"
+#define PROFILE_PALM "/usr/local/share/opencv/haarcascades/palm.xml"
 
 GstElement *playbin,
 			*pipeline,
@@ -25,12 +27,24 @@ bus_sync_handler(GstBus *bus, GstMessage *message, GstPipeline *pipeline)
 {
 	/* select msg */
 	if(GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT ||
-			!gst_structure_has_name(message->structure, "detected_hand_info") )
+			!gst_structure_has_name(message->structure, "hand-gesture") )
 		return GST_BUS_PASS;
 
 	/* parse msg structure */
 	const GstStructure *structure = message->structure;
-		if(structure && strcmp(gst_structure_get_name(structure), "detected_hand_info") == 0){
+
+		/* if PALM gesture detected */
+		if (structure &&
+				strcmp (gst_structure_get_name (structure), "hand-gesture") == 0 &&
+				strcmp (gst_structure_get_string (structure, "gesture"), "palm") == 0) {
+			/* media operation - closed palm to stop media play*/
+			gst_element_set_state (playbin, GST_STATE_PAUSED);
+		}
+
+		/* if FIST gesture detected */
+		if (structure &&
+				strcmp (gst_structure_get_name (structure), "hand-gesture") == 0 &&
+				strcmp (gst_structure_get_string (structure, "gesture"), "fist") == 0){
 			/* print message type and structure name */
 			g_print("%s{{%s}}\n",	gst_message_type_get_name(message->type), gst_structure_get_name(structure));
 			/* print msg structure names&values */
@@ -45,24 +59,21 @@ bus_sync_handler(GstBus *bus, GstMessage *message, GstPipeline *pipeline)
 			}
 			g_print("\n");
 
-			/* media operation */
-			if(g_value_get_uint(gst_structure_get_value(structure, "x")) > 120)
-				gst_element_set_state(playbin, GST_STATE_PAUSED);
-			else
-				gst_element_set_state(playbin, GST_STATE_PLAYING);
-
-			/* change volume */
+			/* get X,Y positions in frame */
 			const GValue *x_value = gst_structure_get_value(structure, "x");
 			gint x = g_value_get_uint(x_value);
 			const GValue *y_value = gst_structure_get_value(structure, "y");
 			gint y = g_value_get_uint(y_value);
-			g_object_set(G_OBJECT(playbin), "volume", (gdouble)(9 - y/24 ), NULL);
 
-			/* seek event */
+			/* set object volumes [0-10] based on Y */
+			g_object_set(G_OBJECT(playbin), "volume", (gdouble)(10 - y/24 ), NULL);
+
+			/* seek playback positions */
 			gint64 position, length;
 			GstFormat format = GST_FORMAT_TIME;
 			gst_element_query_duration(playbin, &format, &length);
-			position = length * x / 320;
+			/* Width = 320 is specified in caps */
+			position = (gint64) length * x / 320;
 			gst_element_set_state(playbin, GST_STATE_PAUSED);
 			gst_element_seek(GST_ELEMENT(playbin),
 					1.0,
@@ -84,8 +95,7 @@ int main(gint argc, gchar **argv) {
 	loop = g_main_loop_new(NULL, FALSE);
 	/* video source */
 	gchar *video_device = "/dev/video0";
-	/* INFO: change to the dir the media file is in */
-	gchar *video_file = "file:///home/user/examples/videoControl/video.avi";
+	gchar *video_file = "file:///home/javauser/workspace/gitfiles/gsthanddetect_app/video.avi";
 	/* bus */
 	GstBus *bus;
 	/* caps */
@@ -110,8 +120,10 @@ int main(gint argc, gchar **argv) {
 		g_error("ERROR: element init failed.\n");
 
 	/* set values */
-	g_object_set(G_OBJECT(playbin), "uri", video_file, NULL);
-	g_object_set(G_OBJECT(v4l2src), "device", video_device, NULL);
+	g_object_set (G_OBJECT(playbin), "uri", video_file, NULL);
+	g_object_set (G_OBJECT(v4l2src), "device", video_device, NULL);
+	g_object_set (G_OBJECT (handdetect), "profile_fist", PROFILE_FIST, NULL);
+	g_object_set (G_OBJECT (handdetect), "profile_palm", PROFILE_PALM, NULL);
 
 	/* set caps */
 	caps = gst_caps_from_string("video/x-raw-rgb, width=320, height=240, framerate=(fraction)30/1");
