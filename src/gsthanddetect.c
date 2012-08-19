@@ -488,12 +488,12 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
   cvClearMemStorage (filter->cvStorage);
 
   /* check detection cascades */
-  if (!filter->cvCascade || !filter->cvCascade_palm)
+  if (!filter->cvCascade_fist || !filter->cvCascade_palm)
     return GST_FLOW_OK;
 
   /* detect FIST gesture fist */
   hands =
-      cvHaarDetectObjects (filter->cvGray, filter->cvCascade,
+      cvHaarDetectObjects (filter->cvGray, filter->cvCascade_fist,
       filter->cvStorage, 1.1, 2, CV_HAAR_DO_CANNY_PRUNING, cvSize (24, 24)
 #if (CV_MAJOR_VERSION >= 2) && (CV_MINOR_VERSION >= 2)
       , cvSize (0, 0)
@@ -596,7 +596,7 @@ gst_handdetect_transform_ip (GstOpencvVideoFilter * transform,
       /* set frame buffer writable */
       if (filter->display) {
         buffer = gst_buffer_make_writable (buffer);
-        GST_DEBUG_OBJECT (filter, "%d FIST gestures detected\n",
+        GST_DEBUG_OBJECT (filter, "%d PALM gestures detected\n",
             (int) hands->total);
       }
       /* Go through all detected PALM gestures to get the best one
@@ -700,11 +700,11 @@ static void
 gst_handdetect_load_profile (GstHanddetect * filter)
 {
   GST_DEBUG_OBJECT (filter, "Loading profiles...\n");
-  filter->cvCascade =
+  filter->cvCascade_fist =
       (CvHaarClassifierCascade *) cvLoad (filter->profile_fist, 0, 0, 0);
   filter->cvCascade_palm =
       (CvHaarClassifierCascade *) cvLoad (filter->profile_palm, 0, 0, 0);
-  if (!filter->cvCascade)
+  if (!filter->cvCascade_fist || !filter->cvCascade_palm)
     GST_WARNING_OBJECT (filter,
         "WARNING: Could not load HAAR classifier cascade: %s.\n",
         filter->profile_fist);

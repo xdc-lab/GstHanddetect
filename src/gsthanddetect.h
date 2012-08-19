@@ -98,7 +98,7 @@ struct _GstHanddetect
    */
   IplImage *cvImage;
   IplImage *cvGray;
-  CvHaarClassifierCascade *cvCascade;
+  CvHaarClassifierCascade *cvCascade_fist;
   CvHaarClassifierCascade *cvCascade_palm;
   CvMemStorage *cvStorage;
   CvMemStorage *cvStorage_palm;
