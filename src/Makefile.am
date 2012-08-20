@@ -14,3 +14,6 @@ gstopencvutils.h
 AM_CPPFLAGS = $(GST_CFLAGS)
 
 libdir=${exec_prefix}/lib/gstreamer-0.10
+
+xmlfiledir = $(exec_prefix)/share/opencv/haarcascades
+dist_xmlfile_SCRIPTS = xml/fist.xml xml/palm.xml
