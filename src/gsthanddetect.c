@@ -173,6 +173,11 @@ gst_handdetect_implements_interface_init (GstImplementsInterfaceClass * klass)
   klass->supported = gst_handdetect_interface_supported;
 }
 
+/* FIXME: this function used to parse the region of interests coordinates
+ * sending from applications when the hand gestures reach the defined regions of interests,
+ * at this moment this function is not doing anything significantly
+ * but will be CHANGED when the gstreamer is patched with new hand gesture events
+ */
 static void
 gst_handdetect_navigation_send_event (GstNavigation * navigation,
     GstStructure * structure)
@@ -189,6 +194,10 @@ gst_handdetect_navigation_send_event (GstNavigation * navigation,
 }
 
 /* handle element pad event */
+/* no PRACTICAL USE at the moment
+ * this function is used to debug the fist-move/palm-move event
+ * will CHANGE in the future
+ */
 static gboolean
 gst_handdetect_handle_pad_event (GstPad * pad, GstEvent * event)
 {
