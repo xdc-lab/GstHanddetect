@@ -1,6 +1,8 @@
 lib_LTLIBRARIES = libgsthanddetect.la
 
+libgsthanddetect_la_CFLAGS = $(GST_CFLAGS)
 libgsthanddetect_la_LIBADD = $(GST_LIBS)
+libgsthanddetect_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libgsthanddetect_la_SOURCES = \
 gsthanddetect.c \
 gsthanddetect.h \

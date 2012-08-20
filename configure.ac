@@ -1,7 +1,7 @@
 AC_PREREQ([2.64])
 AC_INIT([gst-handdetect],
         [0.1],
-        [],
+        [andol@andol.info],
         [gst-handdetect],
         [])
 
@@ -23,5 +23,6 @@ LT_INIT
 
 PKG_PROG_PKG_CONFIG()
 PKG_CHECK_MODULES(GST, [gstreamer-0.10 gstreamer-video-0.10 opencv])
+AC_CHECK_LIB([gstinterfaces-0.10], [gst_navigation_get_type])
 AC_CONFIG_FILES([Makefile src/Makefile examples/Makefile])
 AC_OUTPUT
